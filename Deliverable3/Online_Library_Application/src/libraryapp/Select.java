@@ -258,7 +258,7 @@ public class Select {
     printBill(sql);
 
   }
-
+  
   private void billByAmount() {
     Scanner scanner = new Scanner(System.in);
     outer: while (true) {

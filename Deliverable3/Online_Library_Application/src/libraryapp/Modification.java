@@ -50,18 +50,22 @@ public class Modification {
   private void verification(int type) {
     Scanner scanner = new Scanner(System.in);
     System.out.println("Please enter the current email address correctly.");
+    System.out.print("> ");
     String email = scanner.nextLine();
     String sql = "";
     if (type == 1) {
       System.out.println("What is the New Address?");
+      System.out.print("> ");
       String address = scanner.nextLine();
       sql = "UPDATE Customer SET address = '" + address + "'" + " WHERE email = '" + email + "'";
     } else if (type == 2) {
       System.out.println("What is the New Customer Name?");
+      System.out.print("> ");
       String cname = scanner.nextLine();
       sql = "UPDATE Customer SET cname = '" + cname + "'" + " WHERE email = '" + email + "'";
     } else if (type == 3) {
       System.out.println("What is the New Phone Number?");
+      System.out.print("> ");
       String phone = scanner.nextLine();
       sql = "UPDATE Customer SET phone_number = '" + phone + "'" + " WHERE email = '" + email + "'";
     }
@@ -71,7 +75,7 @@ public class Modification {
 
   private void updateCustomer(String sql, String email) {
     try {
-      stmt.executeQuery(sql);
+      stmt.executeUpdate(sql);
       System.out.println("Customer information updated successful !");
       printCustomer(email);// print the corresponding customer information
 
@@ -117,6 +121,7 @@ public class Modification {
       System.out.println("Please enter the review ID or press Q for returning to  previous menu");
       System.out.print("> ");
       if (scanner.nextLine().equals("Q")) {
+        modifyReview();
         break outer;
       } else {
         rid = scanner.nextLine();
@@ -148,9 +153,8 @@ public class Modification {
     outer: while (true) {
       System.out.println("Please enter the store id or press Q for returning to  previous menu");
       System.out.print("> ");
-      if (!scanner.nextLine().matches("[0-9][0-9]")) {
-        System.out.println("Invalid store ID! Please Try again");
-      } else if (scanner.nextLine().equals("Q")) {
+       if (scanner.nextLine().equals("Q")) {
+        modifyReview();
         break outer;
       } else {
         sid = scanner.nextLine();
@@ -162,17 +166,15 @@ public class Modification {
       System.out
           .println("Please enter the store book ID or press Q for returning to previous menu");
       System.out.print("> ");
-      if (!scanner.nextLine().matches("[0-9][0-9]")) {
-        System.out.println("Invalid book ID! Please Try again");
-      } else if (scanner.nextLine().equals("Q")) {
+     if (scanner.nextLine().equals("Q")) {
         break outer;
       } else {
         bookid = scanner.nextLine();
-        break;
+        break outer;
       }
     }
 
-    sid = findStoreByBook(bookid);
+
     String rating = "";
     outer: while (true) {
       System.out.println(" What is the rating? ");
@@ -234,7 +236,7 @@ public class Modification {
 
     try {
 
-      stmt.executeQuery(sql);
+      stmt.executeUpdate(sql);
 
       System.out.println("Review added successful !");
       printReview(reviewId);// print the newly added review
@@ -245,36 +247,6 @@ public class Modification {
       System.err.println(
           "msg: " + e.getMessage() + "code: " + e.getErrorCode() + "state: " + e.getSQLState());
     }
-
-  }
-
-  /**
-   * This method finds the store id based on the corresponding book id
-   * 
-   * @param sql
-   * @return String sid
-   */
-
-  private String findStoreByBook(String bookid) {
-
-
-    String sql = "SELECT sid FROM book WHERE instore_bookid = " + bookid + ";";
-    String sid = "";
-
-    try {
-      ResultSet rs = stmt.executeQuery(sql);
-
-      while (rs.next()) {
-        sid = String.valueOf(rs.getInt("sid"));
-
-
-      }
-
-    } catch (SQLException e) {
-      System.err.println(
-          "msg: " + e.getMessage() + "code: " + e.getErrorCode() + "state: " + e.getSQLState());
-    }
-    return sid;
 
   }
 
