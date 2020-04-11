@@ -117,24 +117,21 @@ public class Modification {
   private void deleteReview() {
     Scanner scanner = new Scanner(System.in);
     String rid = "";
-    outer: while (true) {
-      System.out.println("Please enter the review ID or press Q for returning to  previous menu");
+    while (true) {
+      System.out.println("Please enter the review ID");
       System.out.print("> ");
-      if (scanner.nextLine().equals("Q")) {
-        modifyReview();
-        break outer;
-      } else {
-        rid = scanner.nextLine();
-        break;
-      }
+
+      rid = scanner.nextLine();
+      break;
+
     }
 
 
-    String sql = "DELETE FROM Review WHERE review_id =" + rid;
+    String sql = "DELETE FROM Review WHERE review_id = '" + rid + "'";
 
     try {
 
-      stmt.executeQuery(sql);
+      stmt.executeUpdate(sql);
       System.out.println("Review deleted successful !");
 
 
@@ -150,63 +147,59 @@ public class Modification {
     String bookid = "";
     String reviewId = "";
     String comment = "";
-    outer: while (true) {
-      System.out.println("Please enter the store id or press Q for returning to  previous menu");
+    while (true) {
+      System.out.println("Please enter the store id");
       System.out.print("> ");
-       if (scanner.nextLine().equals("Q")) {
-        modifyReview();
-        break outer;
-      } else {
-        sid = scanner.nextLine();
-        break;
-      }
+
+      sid = scanner.nextLine();
+      break;
+
     }
 
-    outer: while (true) {
+    while (true) {
       System.out
           .println("Please enter the store book ID or press Q for returning to previous menu");
       System.out.print("> ");
-     if (scanner.nextLine().equals("Q")) {
-        break outer;
-      } else {
-        bookid = scanner.nextLine();
-        break outer;
-      }
+
+      bookid = scanner.nextLine();
+
+      break;
     }
 
 
     String rating = "";
-    outer: while (true) {
-      System.out.println(" What is the rating? ");
-      System.out.println("  1  ");
-      System.out.println("  2  ");
-      System.out.println("  3  ");
-      System.out.println("  4  ");
-      System.out.println("  5  ");
-      System.out.println("6. Return to Previou menu");
-      System.out.print("> ");
-      switch (scanner.nextLine()) {
-        case "1":
-          rating = "1";
-          break;
-        case "2":
-          rating = "2";
-          break;
-        case "3":
-          rating = "3";
-          break;
-        case "4":
-          rating = "4";
-          break;
-        case "5":
-          rating = "5";
-          break;
-        case "6":
-          break outer;
-        default:
-          System.out.println("This Option is not available. Please choose again.");
-      }
+
+    System.out.println(" What is the rating? ");
+    System.out.println("  1  ");
+    System.out.println("  2  ");
+    System.out.println("  3  ");
+    System.out.println("  4  ");
+    System.out.println("  5  ");
+    System.out.println("6. Return to Previou menu");
+    System.out.print("> ");
+    switch (scanner.nextLine()) {
+      case "1":
+        rating = "1";
+        break;
+      case "2":
+        rating = "2";
+        break;
+      case "3":
+        rating = "3";
+        break;
+      case "4":
+        rating = "4";
+        break;
+      case "5":
+        rating = "5";
+        break;
+      case "6":
+        addReview();
+        break;
+      default:
+        System.out.println("This Option is not available. Please choose again.");
     }
+
 
     outer: while (true) {
       System.out.println("Please enter comment of the review");
@@ -231,8 +224,8 @@ public class Modification {
           "msg: " + e.getMessage() + "code: " + e.getErrorCode() + "state: " + e.getSQLState());
     }
 
-    String sql = "INSERT INTO \"review\" (sid,instore_bookId,review_id,rate,comment) VALUES (" + sid
-        + "," + bookid + "," + reviewId + "," + rating + ",'" + comment + "');";
+    String sql = "INSERT INTO review (sid,instore_bookId,review_id,rate,comment) VALUES ('" + sid
+        + "','" + bookid + "','" + reviewId + "','" + rating + "','" + comment + "')";
 
     try {
 
