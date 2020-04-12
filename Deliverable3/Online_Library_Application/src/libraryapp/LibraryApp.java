@@ -34,7 +34,7 @@ public class LibraryApp {
     Select select = new Select(statement);
     Modification modify = new Modification(statement);
 
-    System.out.println("Welcome to the Group 06 SQL Console 3000");
+    System.out.println("Welcome to the Group 06 SQL Console !");
     outer: while (true) {
       try {
 
