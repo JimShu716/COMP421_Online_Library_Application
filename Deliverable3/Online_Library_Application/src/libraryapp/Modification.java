@@ -47,12 +47,17 @@ public class Modification {
 
   }
 
+  
+  /**
+   * This method updates different customer information by input type
+   * @param type
+   */
   private void verification(int type) {
     Scanner scanner = new Scanner(System.in);
     System.out.println("Please enter the current email address correctly.");
     System.out.print("> ");
     String email = scanner.nextLine();
-    String sql = "";
+    String sql = null;
     if (type == 1) {
       System.out.println("What is the New Address?");
       System.out.print("> ");
@@ -114,9 +119,12 @@ public class Modification {
     }
   }
 
+  /**
+   * This method deletes a review from database
+   */
   private void deleteReview() {
     Scanner scanner = new Scanner(System.in);
-    String rid = "";
+    String rid = null;
     while (true) {
       System.out.println("Please enter the review ID");
       System.out.print("> ");
@@ -141,24 +149,29 @@ public class Modification {
     }
   }
 
+  
+
+  /**
+   * This method create a review in database
+   */
   private void addReview() {
     Scanner scanner = new Scanner(System.in);
-    String sid = "";
-    String bookid = "";
-    String reviewId = "";
-    String comment = "";
+    String sid = null;
+    String bookid = null;
+    String reviewId = null;
+    String comment = null;
     while (true) {
       System.out.println("Please enter the store id");
       System.out.print("> ");
 
       sid = scanner.nextLine();
+
       break;
 
     }
 
     while (true) {
-      System.out
-          .println("Please enter the store book ID or press Q for returning to previous menu");
+      System.out.println("Please enter the store book ID");
       System.out.print("> ");
 
       bookid = scanner.nextLine();
@@ -167,7 +180,7 @@ public class Modification {
     }
 
 
-    String rating = "";
+    String rating = null;
 
     System.out.println(" What is the rating? ");
     System.out.println("  1  ");
@@ -201,31 +214,38 @@ public class Modification {
     }
 
 
-    outer: while (true) {
+    while (true) {
       System.out.println("Please enter comment of the review");
       System.out.print("> ");
 
       comment = scanner.nextLine();
-      break outer;
+
+      break;
     }
 
 
 
     try {
       String sql1 = "SELECT max(review_id) as m FROM Review";
+
       ResultSet rs = stmt.executeQuery(sql1);
-      int max = rs.getInt("m");
-      reviewId = String.valueOf(max + 1);
 
+      while (rs.next()) {
+        reviewId = String.valueOf(rs.getInt("m") + 1);// Make sure no duplicated Id
 
+      }
 
     } catch (SQLException e) {
       System.err.println(
           "msg: " + e.getMessage() + "code: " + e.getErrorCode() + "state: " + e.getSQLState());
     }
 
+
+
     String sql = "INSERT INTO review (sid,instore_bookId,review_id,rate,comment) VALUES ('" + sid
         + "','" + bookid + "','" + reviewId + "','" + rating + "','" + comment + "')";
+
+
 
     try {
 
@@ -256,7 +276,7 @@ public class Modification {
       ResultSet rs = stmt.executeQuery(sql);
       String[] header = {"sid", "instore_bookId", "reviewId", "rate", "comment"};
       System.out.println("---------------------- Matching Result -----------------------");
-      System.out.format("%20s%20s%20s%20s\n", (Object[]) header);
+      System.out.format("%20s%20s%20s%20s%20s\n", (Object[]) header);
       while (rs.next()) {
         String sid = String.valueOf(rs.getInt("sid"));
         String bookId = String.valueOf(rs.getInt("instore_bookId"));
@@ -286,6 +306,7 @@ public class Modification {
    */
   private void printCustomer(String email) {
 
+    System.out.println(email);
     String sql = "select * from customer where email = '" + email + "';";
     try {
 
