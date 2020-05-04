@@ -47,9 +47,10 @@ public class Modification {
 
   }
 
-  
+
   /**
    * This method updates different customer information by input type
+   * 
    * @param type
    */
   private void verification(int type) {
@@ -149,7 +150,7 @@ public class Modification {
     }
   }
 
-  
+
 
   /**
    * This method create a review in database
